@@ -1,4 +1,5 @@
-﻿using Silk.NET.Input;
+﻿using System.Drawing;
+using Silk.NET.Input;
 using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
@@ -8,6 +9,7 @@ namespace cscleste
     public static class Program
     {
         private static IWindow _window;
+        private static GL _gl;
 
         public static void Main(string[] args)
         {
@@ -31,11 +33,17 @@ namespace cscleste
             IInputContext input = _window.CreateInput();
             for (int i = 0; i < input.Keyboards.Count; i++)
                 input.Keyboards[i].KeyDown += KeyDown;
+
+            _gl = _window.CreateOpenGL();
+            _gl.ClearColor(Color.CornflowerBlue);
         }
 
         public static void OnUpdate(double deltaTime) { }
 
-        public static void OnRender(double deltaTime) { }
+        public static void OnRender(double deltaTime)
+        {
+            _gl.Clear(ClearBufferMask.ColorBufferBit);
+        }
 
         private static void KeyDown(IKeyboard keyboard, Key key, int keyCode)
         {
